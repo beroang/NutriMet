@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sedes IPS en Colombia</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    h1 {
+      color: darkgreen;
+    }
+
+    .sede {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+
+    #map {
+      height: 500px;
+      margin-top: 30px;
+      border: 2px solid #aaa;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Sedes de la IPS en Colombia</h1>
+  <div id="sedes-container"></div>
+
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    fetch('sedes.json')
+      .then(response => response.json())
+      .then(sedes => {
+        const container = document.getElementById('sedes-container');
+
+        // Mostrar cada sede en una caja
+        sedes.forEach(sede => {
+          const div = document.createElement('div');
+          div.className = 'sede';
+          div.innerHTML = `
+            <strong>${sede.nombre}</strong><br/>
+            Dirección: ${sede.direccion}<br/>
+            Ciudad: ${sede.ciudad}
+          `;
+          container.appendChild(div);
+        });
+
+        // Crear el mapa centrado en Colombia
+        const map = L.map('map').setView([4.5709, -74.2973], 5.5);
+
+        // Cargar los tiles de OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Agregar marcadores de las sedes
+        sedes.forEach(sede => {
+          L.marker([sede.lat, sede.lng])
+            .addTo(map)
+            .bindPopup(`<strong>${sede.nombre}</strong><br/>${sede.direccion}<br/>${sede.ciudad}`);
+        });
+      })
+      .catch(error => {
+        console.error('Error al cargar las sedes:', error);
+      });
+  </script>
+</body>
+</html>
