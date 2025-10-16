@@ -1,51 +1,300 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <title>Mapa de Sedes IPS en Colombia</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Estilos de Leaflet -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  <style>
-    #map {
-      height: 600px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriMet - Clínica Integral | Dashboard de Datos</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏥</text></svg>">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet CSS for Maps -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <h2>Mapa de las 8 sedes de la IPS en Colombia</h2>
-  <div id="map"></div>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <div class="logo-icon">🏥</div>
+                <div class="logo-text">
+                    <h1>NutriMet</h1>
+                    <p>Clínica Integral</p>
+                </div>
+            </div>
+            <nav class="nav">
+                <a href="#inicio" class="nav-link active">Inicio</a>
+                <a href="#estadisticas" class="nav-link">Estadísticas</a>
+                <a href="#servicios" class="nav-link">Servicios</a>
+                <a href="#ubicacion" class="nav-link">Ubicación</a>
+                <a href="#contacto" class="nav-link">Contacto</a>
+            </nav>
+        </div>
+    </header>
 
-  <!-- Script de Leaflet -->
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <script>
-    // Inicializa el mapa en Colombia
-    var map = L.map('map').setView([4.5709, -74.2973], 5); // Coordenadas de Colombia
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2 class="hero-title">Tu salud, nuestro compromiso</h2>
+                <p class="hero-subtitle">Dashboard de Ciencia de Datos - Análisis en Tiempo Real</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="scrollToSection('estadisticas')">
+                        Ver Estadísticas
+                    </button>
+                    <button class="btn btn-secondary" onclick="scrollToSection('servicios')">
+                        Nuestros Servicios
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    // Capa base (OpenStreetMap)
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
+    <!-- Mission & Vision -->
+    <section class="mission-vision">
+        <div class="container">
+            <div class="mission-vision-grid">
+                <div class="card">
+                    <div class="card-icon">🎯</div>
+                    <h3>Misión</h3>
+                    <p>Mejorar la calidad de vida con planes nutricionales y médicos personalizados.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">👁️</div>
+                    <h3>Visión</h3>
+                    <p>Ser un centro líder en salud metabólica con atención integral y humanizada.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">⭐</div>
+                    <h3>Valores</h3>
+                    <p>Atención personalizada, equipo interdisciplinario y enfoque en prevención.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    // Lista de sedes con nombre y coordenadas
-    var sedes = [
-      { nombre: "IPS Bogotá", lat: 4.7110, lon: -74.0721 },
-      { nombre: "IPS Medellín", lat: 6.2442, lon: -75.5812 },
-      { nombre: "IPS Cali", lat: 3.4516, lon: -76.5320 },
-      { nombre: "IPS Barranquilla", lat: 10.9639, lon: -74.7964 },
-      { nombre: "IPS Bucaramanga", lat: 7.1193, lon: -73.1227 },
-      { nombre: "IPS Cartagena", lat: 10.3910, lon: -75.4794 },
-      { nombre: "IPS Pereira", lat: 4.8143, lon: -75.6946 },
-      { nombre: "IPS Villavicencio", lat: 4.1420, lon: -73.6266 }
-    ];
+    <!-- KPIs Dashboard -->
+    <section id="estadisticas" class="kpis">
+        <div class="container">
+            <h2 class="section-title">Indicadores Clave de Desempeño (KPIs)</h2>
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-icon">👥</div>
+                    <div class="kpi-value" id="kpi-pacientes">500</div>
+                    <div class="kpi-label">Pacientes Activos</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon">📅</div>
+                    <div class="kpi-value" id="kpi-consultas">1,200</div>
+                    <div class="kpi-label">Consultas Completadas</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon">💰</div>
+                    <div class="kpi-value" id="kpi-ingresos">$144M</div>
+                    <div class="kpi-label">Ingresos Totales (COP)</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon">⭐</div>
+                    <div class="kpi-value" id="kpi-satisfaccion">4.8</div>
+                    <div class="kpi-label">Satisfacción (de 5.0)</div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    // Agregar marcadores al mapa
-    sedes.forEach(function(sede) {
-      L.marker([sede.lat, sede.lon])
-        .addTo(map)
-        .bindPopup(`<b>${sede.nombre}</b>`)
-        .openPopup();
-    });
-  </script>
+    <!-- Charts Section -->
+    <section class="charts">
+        <div class="container">
+            <div class="charts-grid">
+                <!-- Chart 1: Género -->
+                <div class="chart-card">
+                    <h3>Distribución por Género</h3>
+                    <canvas id="chartGenero"></canvas>
+                </div>
+
+                <!-- Chart 2: IMC -->
+                <div class="chart-card">
+                    <h3>Categorías de IMC</h3>
+                    <canvas id="chartIMC"></canvas>
+                </div>
+
+                <!-- Chart 3: Consultas -->
+                <div class="chart-card">
+                    <h3>Tipos de Consulta</h3>
+                    <canvas id="chartConsultas"></canvas>
+                </div>
+
+                <!-- Chart 4: Edad -->
+                <div class="chart-card">
+                    <h3>Distribución de Edad</h3>
+                    <canvas id="chartEdad"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="servicios" class="services">
+        <div class="container">
+            <h2 class="section-title">Nuestros Servicios</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🍎</div>
+                    <h3>Consultas Médicas y Nutricionales</h3>
+                    <p>Atención personalizada con especialistas en nutrición y medicina general.</p>
+                    <span class="service-price">Desde $80,000 COP</span>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">⚖️</div>
+                    <h3>Programas de Control de Peso</h3>
+                    <p>Planes estructurados para alcanzar y mantener tu peso ideal.</p>
+                    <span class="service-price">Desde $100,000 COP</span>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">💡</div>
+                    <h3>Educación en Hábitos Saludables</h3>
+                    <p>Talleres y sesiones educativas para mejorar tu calidad de vida.</p>
+                    <span class="service-price">Desde $90,000 COP</span>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🛡️</div>
+                    <h3>Prevención de Enfermedades Crónicas</h3>
+                    <p>Programas preventivos para diabetes, hipertensión y más.</p>
+                    <span class="service-price">Desde $110,000 COP</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location Section with Map -->
+    <section id="ubicacion" class="location">
+        <div class="container">
+            <h2 class="section-title">Nuestra Ubicación en Bogotá</h2>
+            <div class="location-content">
+                <div class="location-info">
+                    <div class="location-detail">
+                        <div class="location-icon">📍</div>
+                        <div>
+                            <h4>Dirección</h4>
+                            <p>Cra 10 #23-10-28, Candelaria<br>Bogotá D.C., Colombia</p>
+                        </div>
+                    </div>
+                    <div class="location-detail">
+                        <div class="location-icon">🕐</div>
+                        <div>
+                            <h4>Horario de Atención</h4>
+                            <p>Lunes a Viernes: 8:00 AM - 6:00 PM<br>Sábados: 9:00 AM - 1:00 PM</p>
+                        </div>
+                    </div>
+                    <div class="location-detail">
+                        <div class="location-icon">📞</div>
+                        <div>
+                            <h4>Contacto</h4>
+                            <p>Teléfono: +57 (1) 123-4567<br>Email: info@nutrimet.com</p>
+                        </div>
+                    </div>
+                    <div class="location-detail">
+                        <div class="location-icon">🚌</div>
+                        <div>
+                            <h4>Transporte Público</h4>
+                            <p>Estación TransMilenio: Las Aguas<br>Rutas de buses: 12, 34, 56</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="map-container">
+                    <div id="map"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contacto" class="contact">
+        <div class="container">
+            <h2 class="section-title">Agenda tu Consulta</h2>
+            <div class="contact-form-container">
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <label for="nombre">Nombre Completo</label>
+                        <input type="text" id="nombre" name="nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Correo Electrónico</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="telefono">Teléfono</label>
+                        <input type="tel" id="telefono" name="telefono" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="servicio">Servicio de Interés</label>
+                        <select id="servicio" name="servicio" required>
+                            <option value="">Selecciona un servicio</option>
+                            <option value="consulta">Consulta Nutricional</option>
+                            <option value="control">Control de Peso</option>
+                            <option value="educacion">Educación Alimentaria</option>
+                            <option value="prevencion">Prevención de Enfermedades</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="mensaje">Mensaje</label>
+                        <textarea id="mensaje" name="mensaje" rows="4"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">Enviar Solicitud</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>NutriMet</h3>
+                    <p>Clínica Integral - Tu salud, nuestro compromiso</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">📘 Facebook</a>
+                        <a href="#" class="social-link">📸 Instagram</a>
+                        <a href="#" class="social-link">🐦 Twitter</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Enlaces Rápidos</h4>
+                    <ul>
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#estadisticas">Estadísticas</a></li>
+                        <li><a href="#servicios">Servicios</a></li>
+                        <li><a href="#ubicacion">Ubicación</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <p>📍 Cra 10 #23-10-28, Candelaria, Bogotá</p>
+                    <p>📞 +57 (1) 123-4567</p>
+                    <p>📧 info@nutrimet.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 NutriMet Clínica Integral. Todos los derechos reservados.</p>
+                <p>Desarrollado con 💚 para la salud y el bienestar</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="js/dashboard.js"></script>
 </body>
 </html>
